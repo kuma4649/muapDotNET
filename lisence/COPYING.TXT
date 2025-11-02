@@ -1,0 +1,57 @@
+Copyright (c) 1987, 1989-1996, 2002 by Packen Software.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of the author may be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+------------------------------------------------------------------------------
+(注) 以下は英語の著作権表示を訳した文章である。
+     正式な著作権は、英語の原本に従う。
+
+Copyright (c) 1987, 1989-1996, 2002 by Packen Software.
+All rights reserved.
+
+変更の有無にかかわらず、ソースおよびバイナリ形式の再配布および利用は、
+以下の条件を満たしていれば、これを許可する。
+
+1. ソース・コードの再配布は、上記の著作権表示、この条件項目、および、
+以下の免責事項を保存しなければならない。
+
+2. バイナリ形式の再配布は、上記の著作権表示、この条件項目、および、以
+下の免責事項を、その配布に付随する説明書、あるいはその他の資料のいずれ
+かに明記しなければならない。
+
+3. 前もって特別に許諾を得ない限り、このソフトウェアから派生した製品の
+推奨や販売促進のために、この著作権者名を利用してはならない。
+
+このソフトウェアは「このままの形で」提供され、明示的あるいは言外の保証
+は、商用利用および特定目的への適合に対する言外の保証も含み、またこれら
+だけに限らず、存在しない。たとえ以下のような損害の可能性を示唆されてい
+たとしても、どのような形にしろこのソフトウェアの利用から発生した問題に
+おいて、この著作権者は、(代替製品やサービスの調達; 利用権、データ、あ
+るいは利益の損失; あるいは営業の中断を含む、またこれらだけに限らず)直
+接的に、間接的に、偶然に、特別に、懲罰上、あるいは、必然的に生じてしまっ
+た損害に対し責任はなく、いかなる責任理論上でも契約の有無に係わらず厳密
+な責任はなく、また(過失あるいはその他を含む)不法行為に対しても責任はな
+い。
+
