@@ -1,0 +1,11 @@
+﻿;日本語メッセージ定義
+;I 通常のメッセージ
+;E エラーメッセージ
+
+;
+
+;Program.cs 0600
+E0600=引数(.musファイル)欲しいよぉ
+E0601=.musファイル({0})が見つかりませんでした。
+I0600=muapDotNETConsole コマンドライン版コンパイラ\r\n                                      By kuma\r\n\r\nUsage:\r\n    muapDotNET [-LOGLEVEL=FATAL|ERROR|WARNING|INFO|DEBUG|TRACE] [-OFFLOG=WARNING] musFile[.mus]\r\n\r\nOption\r\n    -LOGLEVEL  コンパイル時に表示するログレベルを指定する(Default:INFO)\r\n    -OFFLOG    WARNINGを表示する\r\nParameter\r\n    musFile\r\n        musファイルを指定してください。\r\n        拡張子を省略すると.musが補完されます。\r\n
+
