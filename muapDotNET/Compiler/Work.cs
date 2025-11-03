@@ -26,7 +26,14 @@ namespace muapDotNET.Compiler
 
         public MmlDatum Copy(MmlDatum md,int dat)
         {
-            MmlDatum md2 = new MmlDatum(md.type, md.args, md.linePos, dat);
+            MmlDatum md2;
+            if(md== null)
+            {
+                md2 = new MmlDatum(dat);
+                return md2;
+            }
+            
+            md2 = new MmlDatum(md.type, md.args, md.linePos, dat);
             return md2;
         }
 

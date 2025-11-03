@@ -129,7 +129,14 @@ namespace muapDotNET.Compiler
 
         public GD3Tag GetGD3TagInfo(byte[] srcBuf)
         {
-            return null;
+            if (
+                work == null 
+                || work.compilerInfo == null
+                || !(work.compilerInfo.addtionalInfo is GD3Tag)
+                )
+                return null;
+
+            return (GD3Tag)work.compilerInfo.addtionalInfo;
         }
 
         public void Init()

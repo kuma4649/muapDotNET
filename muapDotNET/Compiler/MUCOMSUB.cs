@@ -1740,6 +1740,12 @@ namespace muapDotNET.Compiler
 
             r.ah = 0;// 文字列長
             r.cl = 33;// 歌詞データエラー
+
+            work.compilerInfo ??= new CompilerInfo(); // インスタンスがない場合は作成する
+            work.compilerInfo.addtionalInfo ??= new GD3Tag();// インスタンスがない場合は作成する
+            if (!((GD3Tag)work.compilerInfo.addtionalInfo).dicItem.ContainsKey(enmTag.Lyric))
+                ((GD3Tag)work.compilerInfo.addtionalInfo).dicItem.Add(enmTag.Lyric, new string[] { "MUS:UseLyric" });// 歌詞使用フラグを立てる
+
             //comment4:
             do
             {
