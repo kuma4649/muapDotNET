@@ -6199,6 +6199,7 @@ namespace muapDotNET.Compiler
             {
                 r.ax = 0;
                 r.ax++;
+                r.zero = false;
                 // PCMのみ自動タイ禁止
             }
             else
