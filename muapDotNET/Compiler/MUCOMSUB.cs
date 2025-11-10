@@ -516,6 +516,7 @@ namespace muapDotNET.Compiler
         private void kwait0()
         {
             r.al = 0xfb;// +++
+            mucom2.dionpu= r.di;// 音符の演奏番地を保存
             mucom2.stosbObjBufAL2DI();// ダミーデータ
             return;
         }
