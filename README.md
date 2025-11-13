@@ -1,6 +1,13 @@
 # muapDotNET
   muap98iv(NAX)の.NET版です。  
   
+  
+[注意]  
+  muapDotNET(MDPlaye,mml2vgmIDE含む)に関するご意見、ご感想、問い合わせ、報告など、その他は
+  直接ぱっくんソフト(みゅあっぷ関係者)様にしないようにお願いします。  
+  私のXのDMやGitHubのISSUESにまでご連絡ください。  
+  
+  
 [概要]  
   muap98iv(NAX)を.NET版向けに移植したものです。  
   OPNAx1,OPN2x1,CS4231x1を同時使用します。  
@@ -91,12 +98,6 @@
  ・MDSound              -> GPLv3              -> dll動的リンクで使用  
  ・musicDriverInterface -> MIT                -> dll動的リンクで使用  
  ・NAudio               -> MS-PL              -> dll動的リンクで使用  
-  
-  
-[注意]  
-  muapDotNET(MDPlaye,mml2vgmIDE含む)に関するご意見、ご感想、問い合わせ、報告など、その他は
-  直接ぱっくんソフト(みゅあっぷ関係者)様にしないようにお願いします。  
-  私のXのDMやGitHubのISSUESにまでご連絡ください。  
   
   
 [SpecialThanks]  
