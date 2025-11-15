@@ -2,7 +2,10 @@
 using muapDotNET.Compiler;
 using musicDriverInterface;
 using System;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
 using System.Xml.Serialization;
 
 namespace muapDotNET.Console
@@ -10,6 +13,8 @@ namespace muapDotNET.Console
     class Program
     {
         private static string srcFile;
+        private static bool isSeli = false;
+
 
         static void Main(string[] args)
         {
@@ -87,7 +92,23 @@ namespace muapDotNET.Console
                 using (MemoryStream destCompiledBin = new MemoryStream())
                 using (Stream bufferedDestStream = new BufferedStream(destCompiledBin))
                 {
-                    isSuccess = compiler.Compile(sourceMML, bufferedDestStream, appendFileReaderCallback);
+                    if(isSeli)
+                    {
+                        //T.B.D: シリアライズモード
+                        Log.WriteLine(LogLevel.INFO, "Serialize Mode");
+                        MmlDatum[] mmlData = compiler.Compile(sourceMML, appendFileReaderCallback);
+                        if (mmlData != null)
+                        {
+                            using (FileStream fs = new FileStream(destFileName + ".seli", FileMode.Create, FileAccess.Write, FileShare.None))
+                            {
+                                XmlSerializer serializer = new XmlSerializer(typeof(MmlDatum[]));
+                                serializer.Serialize(fs, mmlData);
+                            }
+                            isSuccess = true;
+                        }
+                    }
+                    else
+                        isSuccess = compiler.Compile(sourceMML, bufferedDestStream, appendFileReaderCallback);
 
                     if (isSuccess)
                     {
@@ -167,6 +188,11 @@ namespace muapDotNET.Console
                 if (op == "OFFLOG=WARNING")
                 {
                     Log.off = (int)LogLevel.WARNING;
+                }
+
+                if (op == "S")//シリアライズによる出力を指示
+                {
+                    isSeli = true;
                 }
 
                 i++;

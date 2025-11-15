@@ -22,6 +22,7 @@ namespace muapDotNET.Compiler
 
             InitCmddata();
             InitCmdJump();
+            InitExCmdTbl();
         }
 
         //;
@@ -51,6 +52,8 @@ namespace muapDotNET.Compiler
 
                     if (r.al == 255)
                     {
+                        if (SearchExtendCommand()) return;
+
                         cmd3();// なかった
                         return;
                     }
@@ -6697,6 +6700,68 @@ namespace muapDotNET.Compiler
                 mucom2.error();
             }
             return;
+        }
+
+
+
+
+
+        //コマンド名が長い順に定義すること
+        //コマンド名は大文字で定義すること
+        private Tuple<string, Action>[] exCmdTbl;
+        private void InitExCmdTbl() =>
+            exCmdTbl = new Tuple<string, Action>[]{
+                new Tuple<string, Action>("J", ExcmdJump),
+            };
+
+        /// <summary>
+        /// 現在のバッファ位置から拡張コマンドを検索し存在する場合はそのコマンドに応じた処理を実行する
+        /// </summary>
+        /// <remarks>一致するコマンドが見つかった場合、バッファ位置はそのコマンドを過ぎて進み、関連するアクションが実行されます。
+        /// コマンドの一致判定では、アルファベット文字の大文字小文字は区別されません。</remarks>
+        /// <returns>拡張コマンドが見つかり実行された場合trueを返します。それ以外の場合はfalseを返します。</returns>
+        private bool SearchExtendCommand()
+        {
+            foreach(Tuple<string, Action> cmd in exCmdTbl)
+            {
+                int cmdPtr = 0;
+                int ptr = r.bx;
+                while (true)
+                {
+                    byte ch = (byte)(ptr >= muap98.source_Buf.Length ? 0 : muap98.source_Buf[ptr]);
+                    if (ch == 0) break;
+                    if (ch >= (byte)'a') ch -= (byte)' ';// 大文字変換
+                    if (ch != (byte)cmd.Item1[cmdPtr]) break;
+                    ptr++;
+                    cmdPtr++;
+                    if (cmdPtr < cmd.Item1.Length) continue;
+
+                    // コマンド発見
+                    r.bx = (ushort)ptr;
+                    cmd.Item2();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// @J コマンド処理
+        /// 次の再生位置をジャンプポイントとしてマークし、再生が次の音符または休符にスキップされることを示します。
+        /// </summary>
+        private void ExcmdJump()
+        {
+            //skip位置を次の音符、休符にする
+            work.lstMd.Add(new MmlDatum(enmMMLType.SkipPlay, new List<object> { 1 }, null, -1));
+
+            //演奏データの最初にジャンプ命令があることを示す
+            if(muap98.object_Buf.Count > 0)
+            {
+                MmlDatum md = muap98.object_Buf[0];
+                if (md.args == null) md.args = new List<object>();
+                md.args.Add(new MmlDatum(enmMMLType.SkipPlay, null, null, -1));
+            }
         }
 
     }

@@ -2,6 +2,7 @@
 using muapDotNET.Driver;
 using musicDriverInterface;
 using System;
+using System.Collections.Generic;
 
 namespace muapDotNET.Driver
 {
@@ -550,6 +551,17 @@ namespace muapDotNET.Driver
             r.di = dibk;
 
             // 割り込みマスククリア
+
+            //jumpcommand有効チェック
+            jumpMode = false;
+            if (nax.objBuf[0][0].args!= null && nax.objBuf[0][0].args.Count>0 && nax.objBuf[0][0].args[0] is MmlDatum)
+            {
+                MmlDatum md= (MmlDatum)nax.objBuf[0][0].args[0];
+                if (md.type== enmMMLType.SkipPlay)
+                {
+                    jumpMode = true;
+                }
+            }
         }
 
         //･･････････････････････････････
@@ -1767,7 +1779,10 @@ namespace muapDotNET.Driver
                 //stiof1:	sti
                 if (r.sign)
                 {
-                    play_exec();
+                    do
+                    {
+                        play_exec();
+                    } while (jumpMode);
                 }
                 r.es = esbk;
                 r.ah = 1;
@@ -3202,6 +3217,7 @@ namespace muapDotNET.Driver
                 dxbk = 0;
 
                 work.crntMmlDatum = nax.objBuf[0][r.bx];
+                CheckJumpMode(work.crntMmlDatum);
                 r.ax = (ushort)((byte)nax.objBuf[0][r.bx].dat + ((r.bx + 1) >= nax.objBuf[0].Length ? 0 : ((byte)nax.objBuf[0][r.bx + 1].dat * 0x100)) );
                 if (r.al < 0xce)
                 {
@@ -3239,6 +3255,19 @@ namespace muapDotNET.Driver
 
             if (dxbk == 1) recov();
 
+        }
+
+        private void CheckJumpMode(MmlDatum md)
+        {
+            if (md == null 
+                || md.args == null 
+                || md.args.Count<1 
+                || !(md.args[0] is List<MmlDatum>)
+                || ((List<MmlDatum>)md.args[0]).Count < 1
+                || ((MmlDatum)((List<MmlDatum>)md.args[0])[0]).type != enmMMLType.SkipPlay
+                ) return;
+
+            jumpMode = false;
         }
 
         private Action[] jump_table1;
@@ -4943,6 +4972,7 @@ namespace muapDotNET.Driver
                 dxbk = 0;
 
                 work.crntMmlDatum = nax.objBuf[0][r.bx];
+                CheckJumpMode(work.crntMmlDatum);
                 r.al = (byte)nax.objBuf[0][r.bx].dat;
                 r.ah = (byte)nax.objBuf[0][r.bx + 1].dat;
                 if (r.al < 0xce)
@@ -5672,6 +5702,7 @@ namespace muapDotNET.Driver
                 dxbk = 0;
 
                 work.crntMmlDatum = nax.objBuf[0][r.bx];
+                CheckJumpMode(work.crntMmlDatum);
                 r.ax = (ushort)((byte)nax.objBuf[0][r.bx].dat + (byte)nax.objBuf[0][r.bx + 1].dat * 0x100);
                 if (r.al < 0xce)
                 {
@@ -5713,6 +5744,8 @@ namespace muapDotNET.Driver
         }
 
         private Action[] jump_table3;
+        private bool jumpMode;
+
         private void SetJumptable3()
         {
             jump_table3 = new Action[]{

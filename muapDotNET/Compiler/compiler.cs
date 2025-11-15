@@ -57,7 +57,9 @@ namespace muapDotNET.Compiler
                         }
                     }
                     //音色情報を追加しておく
-                    obj[0].args = new List<object>() { muap98.toneBuff, fnd ? mc2.mucomsub.labelAdrs : null };
+                    if (obj[0].args == null) obj[0].args = new List<object>();
+                    obj[0].args.Add(muap98.toneBuff);
+                    obj[0].args.Add(fnd ? mc2.mucomsub.labelAdrs : null);
                 }
 
                 return obj.ToArray();
