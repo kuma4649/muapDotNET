@@ -45,6 +45,7 @@ if (!File.Exists(args[fnIndex]))
 
 List<MmlDatum> bl = [];
 byte[] srcBuf = File.ReadAllBytes(args[fnIndex]);
+string objPath = Path.GetDirectoryName(Path.GetFullPath(args[fnIndex]));
 foreach (byte b in srcBuf) bl.Add(new MmlDatum(b));
 MmlDatum[] blary = [.. bl];
 
@@ -145,7 +146,8 @@ drv.Init(lca, blary, null, (object)(new object[] {
     (iDriver.dlgEMS_AllocMemory)CS4231EMS_AllocMemory,
     null,
     0 ,
-    null
+    null,
+    objPath
 }));
 callBack = EmuCallback;
 waveProvider.callback = callBack;

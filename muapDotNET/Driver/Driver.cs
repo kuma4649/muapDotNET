@@ -41,6 +41,7 @@ namespace muapDotNET.Driver
         private MmlDatum[] musicData;
         private byte[] toneBuffFromOutside = null;
         private ushort[] labelPtr = null;
+        private string objPath = null;
         private int sdm = 0;
 
 
@@ -161,17 +162,20 @@ namespace muapDotNET.Driver
             WriteOPN2P = chipsAction[1].WriteRegister;
             WriteC4231 = chipsAction[2].WriteRegister;
             object[] addOptions = (object[])addtionalOption;
-            ReadC4231 = (Func<byte,byte>)addOptions[0];
-            CS4231EMS_GetCrntMapBuf=(Func<byte[]>)addOptions[1];
-            CS4231EMS_Map = (iDriver.dlgEMS_Map)addOptions[2];
-            CS4231EMS_GetPageMap=(Func<ushort>)addOptions[3];
-            CS4231EMS_GetHandleName=(iDriver.dlgEMS_GetHandleName)addOptions[4];
-            CS4231EMS_SetHandleName=(iDriver.dlgEMS_SetHandleName)addOptions[5];
-            CS4231EMS_AllocMemory= (iDriver.dlgEMS_AllocMemory)addOptions[6];
-
-            toneBuffFromOutside = (byte[])addOptions[7];
-            sdm = (int)addOptions[8];
-            labelPtr = (ushort[])addOptions[9];
+            if (addOptions != null)
+            {
+                if (addOptions.Length > 0) ReadC4231 = (Func<byte, byte>)addOptions[0];
+                if (addOptions.Length > 1) CS4231EMS_GetCrntMapBuf = (Func<byte[]>)addOptions[1];
+                if (addOptions.Length > 2) CS4231EMS_Map = (iDriver.dlgEMS_Map)addOptions[2];
+                if (addOptions.Length > 3) CS4231EMS_GetPageMap = (Func<ushort>)addOptions[3];
+                if (addOptions.Length > 4) CS4231EMS_GetHandleName = (iDriver.dlgEMS_GetHandleName)addOptions[4];
+                if (addOptions.Length > 5) CS4231EMS_SetHandleName = (iDriver.dlgEMS_SetHandleName)addOptions[5];
+                if (addOptions.Length > 6) CS4231EMS_AllocMemory = (iDriver.dlgEMS_AllocMemory)addOptions[6];
+                if (addOptions.Length > 7) toneBuffFromOutside = (byte[])addOptions[7];
+                if (addOptions.Length > 8) sdm = (int)addOptions[8];
+                if (addOptions.Length > 9) labelPtr = (ushort[])addOptions[9];
+                if (addOptions.Length > 10) objPath = (string)addOptions[10];
+            }
 
             musicData = srcBuf;
         }
@@ -190,7 +194,7 @@ namespace muapDotNET.Driver
                 CS4231EMS_GetHandleName,
                 CS4231EMS_SetHandleName,
                 CS4231EMS_AllocMemory);
-            nax = new NAX(work,reg, envVars, pc98, ems, opt,toneBuffFromOutside, labelPtr);
+            nax = new NAX(work, reg, envVars, pc98, ems, opt, toneBuffFromOutside, labelPtr, objPath);
             //byte[] o = File.ReadAllBytes("INIT.O");
             nax.function(10, musicData);
             work.Status = 1;

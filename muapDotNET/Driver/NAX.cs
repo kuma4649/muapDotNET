@@ -26,6 +26,7 @@ namespace muapDotNET.Driver
         public PLAY4 play4 = null;
         public MyEncoding myEnc = null;
         private byte[] filebuf;
+        public string objPath = null;
 
         //自己書き換え判定向け
         private int port11 = 0x188;
@@ -62,7 +63,7 @@ namespace muapDotNET.Driver
         public string lyric = "";
 
 
-        public NAX(Work work, x86Register regs,IDictionary envVars, Pc98 pc98,EMS ems,string arg, byte[] toneBuffFromOutside, ushort[] labelPtr)
+        public NAX(Work work, x86Register regs, IDictionary envVars, Pc98 pc98, EMS ems, string arg, byte[] toneBuffFromOutside, ushort[] labelPtr, string objPath)
         {
             //System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             myEnc = new MyEncoding();
@@ -73,9 +74,10 @@ namespace muapDotNET.Driver
             this.ems = ems;
             this.arg = arg;
             this.reg = regs;
-            this.play4 = new PLAY4(this, work,labelPtr);
+            this.objPath= objPath;
+            this.play4 = new PLAY4(this, work, labelPtr);
             this.toneBuffFromOutside = toneBuffFromOutside;
-            work.fifoBuf= new byte[FIFO_SIZE * MAXBUF * 2];
+            work.fifoBuf = new byte[FIFO_SIZE * MAXBUF * 2];
             for (int i = 0; i < FIFO_SIZE * MAXBUF * 2; i++) work.fifoBuf[i] = 0x80;
             work.int0bEnt = Int0bEntry;
 
@@ -2990,22 +2992,39 @@ namespace muapDotNET.Driver
             // ファイルオープン
             reg.dx = reg.bx;
             reg.carry = false;
-            if (!File.Exists(pcm_path1))
+
+            // 先ずは指定されたパスにファイルがあるか確認する
+            if (!string.IsNullOrEmpty(objPath))
             {
-                Log.WriteLine(LogLevel.ERROR, "File not found.{0}", pcm_path1);
-                reg.carry = true;
-            }
-            else
-            {
-                try
+                string objPathFn = Path.Combine(objPath, pcm_path1);
+                if (File.Exists(objPathFn))
                 {
-                    filebuf = File.ReadAllBytes(pcm_path1);
-                    Log.WriteLine(LogLevel.INFO, "[{0}] File found.", pcm_path1);
+                    filebuf = File.ReadAllBytes(objPathFn);
+                    Log.WriteLine(LogLevel.INFO, "[{0}] File found.", objPathFn);
                 }
-                catch
+                else reg.carry = true;//無かった場合は既存処理
+            }
+
+            if (reg.carry)
+            {
+                reg.carry = false;
+                if (!File.Exists(pcm_path1))
                 {
                     Log.WriteLine(LogLevel.ERROR, "File not found.{0}", pcm_path1);
                     reg.carry = true;
+                }
+                else
+                {
+                    try
+                    {
+                        filebuf = File.ReadAllBytes(pcm_path1);
+                        Log.WriteLine(LogLevel.INFO, "[{0}] File found.", pcm_path1);
+                    }
+                    catch
+                    {
+                        Log.WriteLine(LogLevel.ERROR, "File not found.{0}", pcm_path1);
+                        reg.carry = true;
+                    }
                 }
             }
             if (reg.carry)
